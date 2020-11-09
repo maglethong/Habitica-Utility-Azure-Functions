@@ -1,0 +1,35 @@
+{
+  "success": true,
+  "data": [
+    {
+      "challenge": {},
+      "group": {
+        "approval": {
+          "required": false,
+          "approved": false,
+          "requested": false
+        },
+        "assignedUsers": [],
+        "sharedCompletion": "recurringCompletion"
+      },
+      "type": "reward",
+      "notes": "Balance: `0`",
+      "tags": [
+        "tag_id_001"
+      ],
+      "value": 55,
+      "priority": 1,
+      "attribute": "str",
+      "byHabitica": false,
+      "reminders": [],
+      "createdAt": "2018-08-14T02:19:13.460Z",
+      "updatedAt": "2020-11-02T19:20:10.109Z",
+      "_id": "task_id_001",
+      "text": "Bank",
+      "userId": "user_id_001-id-001",
+      "id": "task_id_001"
+    }
+  ],
+  "notifications": [],
+  "appVersion": "4.168.3"
+}

@@ -27,12 +27,23 @@
     <dependency.slf4j.version>1.7.30</dependency.slf4j.version>
     <dependency.slf4j.license>${license.MIT}</dependency.slf4j.license>
 
+    <dependency.jackson.version>2.10.1</dependency.jackson.version>
+    <dependency.jackson.license>${license.Apache.2.0}</dependency.jackson.license>
+
+    <dependency.commons.version>2.6</dependency.commons.version>
+    <dependency.commons.license>${license.Apache.2.0}</dependency.commons.license>
+
+    <!-- Test Scope Dependency versions -->
+    <dependency.jupiter.version>5.4.2</dependency.jupiter.version>
+    <dependency.junit.version>4.12</dependency.junit.version>
+    <dependency.mockserver.version>5.5.0</dependency.mockserver.version>
+
     <!-- Checkstyle Plugin versions -->
     <plugin.checkstyle.version>3.1.1</plugin.checkstyle.version>
     <plugin.checkstyle.puppycrawl.version>8.36.2</plugin.checkstyle.puppycrawl.version>
     <plugin.checkstyle.file.path>project/style_checks.xml</plugin.checkstyle.file.path>
 
-    <!-- Clean Plugin versions -->
+    <!-- Maven Lifecycle Plugin versions -->
     <plugin.clean.version>3.1.0</plugin.clean.version>
   </properties>
 
@@ -83,6 +94,20 @@
       <version>${dependency.slf4j.version}</version>
     </dependency>
 
+    <!-- Jackson -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>${dependency.jackson.version}</version>
+    </dependency>
+
+    <!-- IO Utility -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${dependency.commons.version}</version>
+    </dependency>
+
     <!-- TEST Scope -->
     <dependency>
       <groupId>junit</groupId>
@@ -107,6 +132,14 @@
           <artifactId>android-json</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+
+    <!-- Mock Server -->
+    <dependency>
+      <groupId>org.mock-server</groupId>
+      <artifactId>mockserver-netty</artifactId>
+      <version>${dependency.mockserver.version}</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
@@ -143,7 +176,7 @@
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
         </configuration>
       </plugin>
-      <!-- Clean -->
+      <!-- Mvn Clean -->
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <version>${plugin.clean.version}</version>

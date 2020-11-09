@@ -1,7 +1,13 @@
 package com.maglethongspirr.habitica.azurefunctions.api;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maglethongspirr.habitica.azurefunctions.Application;
 import com.maglethongspirr.habitica.azurefunctions.business.habitica.api.IHabiticaClientService;
+import com.maglethongspirr.habitica.azurefunctions.business.habitica.api.Task;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,11 +51,18 @@ public class HabiticaWebHookControllerTest {
   }
 
   @Test
-  public void someTest() {
+  public void someTest() throws IOException {
     // Prepare
+    InputStream stream = this.getClass().getResourceAsStream("tasks_user_01.json");
+    Assert.assertNotNull("[Initialisation error] Could not find test resource.", stream);
+
+    List<Task> tasks = new ObjectMapper().readValue(stream, new TypeReference<List<Task>>() {});
+    Assert.assertNotNull("[Initialisation error] Could not read test resource.", tasks);
+    Assert.assertTrue("[Initialisation error] Could not read test resource.", tasks.size() > 0);
+
     Mockito
-        .when(habiticaClientService.someMethod(Mockito.any(Object.class)))
-        .thenReturn(new Object());
+        .when(habiticaClientService.getTasks(null, null))
+        .thenReturn(tasks);
 
     // Run
     String url = getEndpointUrl() + "/42";
