@@ -2,10 +2,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.maglethongspirr.habitica</groupId>
-  <artifactId>azure-functions</artifactId>
+  <groupId>com.maglethongspirr</groupId>
+  <artifactId>habitica-utility-parent</artifactId>
+  <packaging>pom</packaging>
   <version>0.1</version>
-  <name>Habitica Utility Azure Functions</name>
+  <modules>
+    <module>core</module>
+    <module>azfunctions</module>
+    <module>spring</module>
+  </modules>
+  <name>Habitica Utility API Functions</name>
   <url>http://habitica.maglethong-spirr.com</url>
 
   <properties>
@@ -21,11 +27,15 @@
     <license.Apache.2.0>https://www.apache.org/licenses/LICENSE-2.0</license.Apache.2.0>
 
     <!-- Dependency versions & licenses -->
-    <dependency.spring.version>2.3.1.RELEASE</dependency.spring.version>
+    <dependency.spring-boot.version>2.3.1.RELEASE</dependency.spring-boot.version>
+    <dependency.spring.version>5.2.7.RELEASE</dependency.spring.version>
     <dependency.spring.license>${license.Apache.2.0}</dependency.spring.license>
 
     <dependency.slf4j.version>1.7.30</dependency.slf4j.version>
     <dependency.slf4j.license>${license.MIT}</dependency.slf4j.license>
+
+    <dependency.log4j.version>2.13.3</dependency.log4j.version>
+    <dependency.log4j.license>${license.MIT}</dependency.log4j.license>
 
     <dependency.jackson.version>2.10.1</dependency.jackson.version>
     <dependency.jackson.license>${license.Apache.2.0}</dependency.jackson.license>
@@ -33,15 +43,17 @@
     <dependency.commons.version>2.6</dependency.commons.version>
     <dependency.commons.license>${license.Apache.2.0}</dependency.commons.license>
 
+    <dependency.guice.version>4.2.2</dependency.guice.version>
+    <dependency.guice.license>${license.Apache.2.0}</dependency.guice.license>
+
     <!-- Test Scope Dependency versions -->
-    <dependency.jupiter.version>5.4.2</dependency.jupiter.version>
-    <dependency.junit.version>4.12</dependency.junit.version>
+    <dependency.junit.version>5.4.2</dependency.junit.version>
     <dependency.mockserver.version>5.5.0</dependency.mockserver.version>
 
     <!-- Checkstyle Plugin versions -->
     <plugin.checkstyle.version>3.1.1</plugin.checkstyle.version>
     <plugin.checkstyle.puppycrawl.version>8.36.2</plugin.checkstyle.puppycrawl.version>
-    <plugin.checkstyle.file.path>project/style_checks.xml</plugin.checkstyle.file.path>
+    <plugin.checkstyle.file.path>style_checks.xml</plugin.checkstyle.file.path>
 
     <!-- Maven Lifecycle Plugin versions -->
     <plugin.clean.version>3.1.0</plugin.clean.version>
@@ -54,51 +66,13 @@
     </license>
   </licenses>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.11.RELEASE</version>
-    <relativePath/>
-  </parent>
 
   <dependencies>
-
-    <!-- Spring -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-      <version>${dependency.spring.version}</version>
-      <exclusions>
-        <!-- Using spring-boot-starter-log4j2 -->
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-log4j2</artifactId>
-      <version>${dependency.spring.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-commons</artifactId>
-      <version>${dependency.spring.version}</version>
-    </dependency>
-
     <!-- Logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${dependency.slf4j.version}</version>
-    </dependency>
-
-    <!-- Jackson -->
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>${dependency.jackson.version}</version>
     </dependency>
 
     <!-- IO Utility -->
@@ -110,38 +84,17 @@
 
     <!-- TEST Scope -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
       <version>${dependency.junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>${dependency.jupiter.version}</version>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>5.2.0</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <version>${dependency.spring.version}</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>com.vaadin.external.google</groupId>
-          <artifactId>android-json</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <!-- Mock Server -->
-    <dependency>
-      <groupId>org.mock-server</groupId>
-      <artifactId>mockserver-netty</artifactId>
-      <version>${dependency.mockserver.version}</version>
-      <scope>test</scope>
-    </dependency>
-
   </dependencies>
 
   <build>
@@ -178,6 +131,7 @@
       </plugin>
       <!-- Mvn Clean -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
         <version>${plugin.clean.version}</version>
         <configuration>
@@ -191,4 +145,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
