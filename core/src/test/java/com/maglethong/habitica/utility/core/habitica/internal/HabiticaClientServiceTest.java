@@ -13,6 +13,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,7 +35,6 @@ import org.mockserver.model.HttpResponse;
 import org.mockserver.model.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HabiticaClientServiceTest {
@@ -45,8 +48,6 @@ public class HabiticaClientServiceTest {
 
   @Mock
   private AppProperties appProperties;
-  @Mock
-  private RestTemplateBuilder restTemplateBuilder;
 
   @InjectMocks
   private HabiticaClientService service;
@@ -89,14 +90,11 @@ public class HabiticaClientServiceTest {
     Mockito
         .when(appProperties.getHabiticaBaseUrl())
         .thenReturn(baseUrl);
-
-    Mockito
-        .when(restTemplateBuilder.build())
-        .thenReturn(new RestTemplateBuilder().build());
   }
 
   @Test
-  public void smokeTest() { }
+  public void smokeTest() {
+  }
 
   @Test
   public void testGetTask() throws IOException {

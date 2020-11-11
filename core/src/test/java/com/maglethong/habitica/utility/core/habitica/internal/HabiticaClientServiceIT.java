@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HabiticaClientServiceIT {
@@ -25,8 +24,6 @@ public class HabiticaClientServiceIT {
 
   @Mock
   private AppProperties appProperties;
-  @Mock
-  private RestTemplateBuilder restTemplateBuilder;
 
   @InjectMocks
   private HabiticaClientService service;
@@ -51,17 +48,10 @@ public class HabiticaClientServiceIT {
     Mockito
         .when(appProperties.getHabiticaApplicationId())
         .thenReturn(properties.getProperty("com.maglethongspirr.habitica.core.habitica.api.client"));
-
-    Mockito
-        .when(restTemplateBuilder.build())
-        .thenReturn(new RestTemplateBuilder().build());
   }
 
   @Test
   public void smokeTest() {
-    LOGGER.debug("debug");
-    LOGGER.info("info");
-    LOGGER.error("error"); // TODO -> verify this is working
   }
 
   @Test

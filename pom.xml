@@ -34,9 +34,6 @@
     <dependency.slf4j.version>1.7.30</dependency.slf4j.version>
     <dependency.slf4j.license>${license.MIT}</dependency.slf4j.license>
 
-    <dependency.log4j.version>2.13.3</dependency.log4j.version>
-    <dependency.log4j.license>${license.MIT}</dependency.log4j.license>
-
     <dependency.jackson.version>2.10.1</dependency.jackson.version>
     <dependency.jackson.license>${license.Apache.2.0}</dependency.jackson.license>
 
@@ -46,9 +43,13 @@
     <dependency.guice.version>4.2.2</dependency.guice.version>
     <dependency.guice.license>${license.Apache.2.0}</dependency.guice.license>
 
+    <dependency.httpclient.version>4.5.2</dependency.httpclient.version>
+    <dependency.httpclient.license>${license.Apache.2.0}</dependency.httpclient.license>
+
     <!-- Test Scope Dependency versions -->
     <dependency.junit.version>5.4.2</dependency.junit.version>
     <dependency.mockserver.version>5.5.0</dependency.mockserver.version>
+    <dependency.mockito.version>2.23.0</dependency.mockito.version>
 
     <!-- Checkstyle Plugin versions -->
     <plugin.checkstyle.version>3.1.1</plugin.checkstyle.version>
@@ -93,6 +94,12 @@
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
       <version>5.2.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${dependency.mockito.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
