@@ -1,6 +1,7 @@
 package com.maglethong.habitica.utility.core.habitica.internal;
 
 import com.maglethong.habitica.utility.core.config.AppProperties;
+import com.maglethong.habitica.utility.core.habitica.api.Attribute;
 import com.maglethong.habitica.utility.core.habitica.api.Task;
 import com.maglethong.habitica.utility.core.habitica.api.TaskType;
 import java.io.IOException;
@@ -55,10 +56,50 @@ public class HabiticaClientServiceIT {
   }
 
   @Test
-  public void test() {
+  public void testGetTasks() {
     Collection<Task> result = service.getTasks(null, TaskType.Reward);
 
     Assert.assertNotNull(result);
     Assert.assertTrue("Result size is 0!", result.size() > 0);
+  }
+
+  @Test
+  public void testUpdateTask() {
+    /////////////
+    // Prepare //
+    /////////////
+    Collection<Task> getResult = service.getTasks(null, TaskType.Reward);
+
+    Assert.assertNotNull(getResult);
+    Assert.assertTrue("Result size is 0!", getResult.size() > 0);
+
+    Task target = getResult.iterator().next();
+
+    /////////////
+    //   Run   //
+    /////////////
+    Task updateValues = new Task().setAttribute(Attribute.Constitution);
+    Task updated = service.updateTask(target.getId(), updateValues);
+
+    /////////////
+    //  Assert //
+    /////////////
+
+    // Unchanged
+    Assert.assertEquals(target.getId(), updated.getId());
+    Assert.assertEquals(target.getNotes(), updated.getNotes());
+    Assert.assertEquals(target.getPriority(), updated.getPriority());
+    Assert.assertEquals(target.getTagIds(), updated.getTagIds());
+    Assert.assertEquals(target.getTaskType(), updated.getTaskType());
+    Assert.assertEquals(target.getTaskValue(), updated.getTaskValue());
+    Assert.assertEquals(target.getText(), updated.getText());
+    Assert.assertEquals(target.getCreatedAt(), updated.getCreatedAt());
+
+    // Updated
+    Assert.assertEquals(updateValues.getAttribute(), updated.getAttribute());
+
+    // Rollback
+    updateValues = new Task().setAttribute(target.getAttribute());
+    service.updateTask(target.getId(), updateValues);
   }
 }

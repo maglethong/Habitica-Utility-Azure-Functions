@@ -3,13 +3,14 @@ package com.maglethong.habitica.utility.core.habitica.api;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Task {
+public class Task extends Object implements Cloneable {
   private String id;
   @JsonProperty("type")
   private TaskType taskType;
@@ -23,7 +24,6 @@ public class Task {
   private Date createdAt;
   private Date updatedAt;
   private String text;
-
 
 
   public String getId() {
@@ -140,5 +140,37 @@ public class Task {
   @Override
   public int hashCode() {
     return Objects.hash(id, taskType, attribute, notes, tagIds, taskValue, priority, createdAt, updatedAt, text);
+  }
+
+  @Override
+  public Object clone() {
+    Task task;
+    try {
+      task = (Task) super.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new RuntimeException(e); // TODO
+    }
+    task
+        .setTagIds(new ArrayList<>(this.tagIds))
+        .setCreatedAt((Date) this.getCreatedAt().clone())
+        .setUpdatedAt((Date) this.getUpdatedAt().clone());
+    return task;
+  }
+
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder("Task{");
+    sb.append("id='").append(id).append('\'');
+    sb.append(", taskType=").append(taskType);
+    sb.append(", attribute=").append(attribute);
+    sb.append(", notes='").append(notes).append('\'');
+    sb.append(", tagIds=").append(tagIds);
+    sb.append(", taskValue=").append(taskValue);
+    sb.append(", priority=").append(priority);
+    sb.append(", createdAt=").append(createdAt);
+    sb.append(", updatedAt=").append(updatedAt);
+    sb.append(", text='").append(text).append('\'');
+    sb.append('}');
+    return sb.toString();
   }
 }
