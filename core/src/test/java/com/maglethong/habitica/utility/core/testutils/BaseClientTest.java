@@ -11,7 +11,13 @@ import org.mockserver.integration.ClientAndServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class BaseClientTest {
+/**
+ * Base class for Tasting using MockClientAndServer
+ *
+ * @param <T> The actual test class (Used so each Test Class has its own Mocked Server)
+ */
+public abstract class BaseClientTest<T extends BaseClientTest> {
+
   private static final Logger LOGGER = LoggerFactory.getLogger(BaseClientTest.class);
   private static final String MOCK_SERVER_HOST = "127.0.0.1";
   private static final String BASE_URL = "http://" + MOCK_SERVER_HOST + ":{mockServerPort}";
@@ -64,6 +70,7 @@ public abstract class BaseClientTest {
 
   @AfterAll
   protected static void afterAll() {
+    LOGGER.debug("Stopping MockServer");
     mockServer.stop();
   }
 
@@ -73,7 +80,7 @@ public abstract class BaseClientTest {
 
   @AfterEach
   protected void afterEach() {
-    baseLogger.debug("Resetting MockServer");
+    LOGGER.debug("Resetting MockServer");
     mockServer.reset();
   }
 }

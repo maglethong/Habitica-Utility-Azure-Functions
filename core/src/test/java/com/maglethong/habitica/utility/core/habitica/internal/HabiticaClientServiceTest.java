@@ -28,7 +28,7 @@ import org.mockserver.model.HttpResponse;
 import org.mockserver.model.Parameter;
 
 @ExtendWith(MockitoExtension.class)
-class HabiticaClientServiceTest extends BaseClientTest {
+class HabiticaClientServiceTest extends BaseClientTest<HabiticaClientServiceTest> {
 
   @Mock
   private AppProperties appProperties;
@@ -45,7 +45,7 @@ class HabiticaClientServiceTest extends BaseClientTest {
   }
 
   @Test
-  protected void smokeTest() { }
+  void smokeTest() {}
 
   @Test
   void testGetTask() throws IOException {

@@ -61,6 +61,7 @@
       <artifactId>mockserver-netty</artifactId>
       <version>${dependency.mockserver.version}</version>
       <scope>test</scope>
+      <optional>true</optional>
     </dependency>
 
   </dependencies>
