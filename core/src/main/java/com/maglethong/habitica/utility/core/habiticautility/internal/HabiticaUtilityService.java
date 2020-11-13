@@ -5,7 +5,7 @@ import com.maglethong.habitica.utility.core.habitica.api.Task;
 import com.maglethong.habitica.utility.core.habitica.api.WebHookActivityType;
 import com.maglethong.habitica.utility.core.habitica.api.WebHookType;
 import com.maglethong.habitica.utility.core.habitica.api.WebhookActivity;
-import com.maglethong.habitica.utility.core.habitica.internal.HabiticaClientService;
+import com.maglethong.habitica.utility.core.habitica.api.IHabiticaClientService;
 import com.maglethong.habitica.utility.core.habiticautility.api.IHabiticaUtilityService;
 import java.util.Arrays;
 import java.util.Optional;
@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 public class HabiticaUtilityService implements IHabiticaUtilityService {
   private static final Logger LOGGER = LoggerFactory.getLogger(HabiticaUtilityService.class);
 
-  private final HabiticaClientService habiticaClientService;
+  private final IHabiticaClientService habiticaClientService;
 
   @Inject
   @Autowired
-  public HabiticaUtilityService(HabiticaClientService habiticaClientService) {
+  public HabiticaUtilityService(IHabiticaClientService habiticaClientService) {
     this.habiticaClientService = habiticaClientService;
   }
 

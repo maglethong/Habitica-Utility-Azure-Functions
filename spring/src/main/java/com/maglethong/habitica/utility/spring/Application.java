@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "com.maglethong.habitica.utility.spring", "com.maglethong.habitica.utility.core"})
+@ComponentScan(basePackages = {"com.maglethong.habitica.utility"})
 public class Application {
 
   /**
