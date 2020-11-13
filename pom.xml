@@ -48,7 +48,7 @@
 
     <!-- Test Scope Dependency versions -->
     <dependency.junit.version>5.4.2</dependency.junit.version>
-    <dependency.mockserver.version>5.5.0</dependency.mockserver.version>
+    <dependency.mockserver.version>5.5.1</dependency.mockserver.version>
     <dependency.mockito.version>2.23.0</dependency.mockito.version>
 
     <!-- Checkstyle Plugin versions -->
@@ -93,12 +93,18 @@
     <dependency>
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
-      <version>5.2.0</version>
+      <version>${dependency.junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <version>${dependency.mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
       <version>${dependency.mockito.version}</version>
       <scope>test</scope>
     </dependency>

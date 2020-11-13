@@ -6,43 +6,29 @@ import com.maglethong.habitica.utility.core.config.AppProperties;
 import com.maglethong.habitica.utility.core.habitica.api.Attribute;
 import com.maglethong.habitica.utility.core.habitica.api.Task;
 import com.maglethong.habitica.utility.core.habitica.api.TaskType;
+import com.maglethong.habitica.utility.core.testutils.BaseClientTest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.BindException;
-import java.net.ServerSocket;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockserver.client.MockServerClient;
-import org.mockserver.integration.ClientAndServer;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockserver.matchers.Times;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.model.Parameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-@RunWith(MockitoJUnitRunner.class)
-public class HabiticaClientServiceTest {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(HabiticaClientServiceTest.class);
-
-  private static final String MOCK_SERVER_HOST = "127.0.0.1";
-  private static final String BASE_URL = "http://" + MOCK_SERVER_HOST + ":{mockServerPort}";
-  private static int mockServerPort;
-  private static ClientAndServer mockServer;
+@ExtendWith(MockitoExtension.class)
+class HabiticaClientServiceTest extends BaseClientTest {
 
   @Mock
   private AppProperties appProperties;
@@ -50,58 +36,25 @@ public class HabiticaClientServiceTest {
   @InjectMocks
   private HabiticaClientService service;
 
-  @BeforeClass
-  public static void setup() throws IOException {
-    startClientAndServer(0);
-  }
-
-  private static void startClientAndServer(int attempt) throws IOException {
-    try {
-      ServerSocket socket = new ServerSocket(0);
-      mockServerPort = socket.getLocalPort();
-      socket.close();
-      mockServer = ClientAndServer.startClientAndServer(mockServerPort);
-      LOGGER.info("Retrying Mock Server initialized on port {}", mockServerPort);
-    } catch (RuntimeException e) {
-      if (!e.getCause().getClass().equals(BindException.class)) {
-        throw e;
-      }
-      LOGGER.warn("Failed to start at port {}", mockServerPort);
-      if (attempt > 5) {
-        LOGGER.error("Mock Server initialisation Attempts exhausted");
-        throw e;
-      }
-      LOGGER.info("Retrying Mock Server initialisation");
-      startClientAndServer(attempt + 1);
-    }
-  }
-
-  @AfterClass
-  public static void stopServer() {
-    mockServer.stop();
-  }
-
-  @Before
-  public void prepare() {
-    String baseUrl = BASE_URL.replace("{mockServerPort}", Integer.toString(mockServerPort));
-
+  @BeforeEach
+  void prepare() {
     Mockito
+        .lenient()
         .when(appProperties.getHabiticaBaseUrl())
-        .thenReturn(baseUrl);
+        .thenReturn(getBaseUrl());
   }
 
   @Test
-  public void smokeTest() {
-  }
+  protected void smokeTest() { }
 
   @Test
-  public void testGetTask() throws IOException {
+  void testGetTask() throws IOException {
     /////////////
     // Prepare //
     /////////////
     InputStream stream = this.getClass().getResourceAsStream("tasks_user_01.json");
     Assert.assertNotNull("[Initialisation error] Could not find test resource.", stream);
-    String tasks_s = IOUtils.toString(stream, StandardCharsets.UTF_8);
+    String tasks_s = IOUtils.toString(stream, StandardCharsets.UTF_8).replaceAll("[\n\\s]", "");
 
     HabiticaRequestResult<List<Task>> tasks = new ObjectMapper()
         .readValue(tasks_s, new TypeReference<HabiticaRequestResult<List<Task>>>() {});
@@ -109,7 +62,7 @@ public class HabiticaClientServiceTest {
     Assert.assertNotNull("[Initialisation error] Could not read test resource.", tasks.data);
     Assert.assertTrue("[Initialisation error] Could not read test resource.", tasks.data.size() > 0);
 
-    new MockServerClient(MOCK_SERVER_HOST, mockServerPort)
+    createClientMock()
         .when(HttpRequest
                 .request()
                 .withMethod("GET")
@@ -150,13 +103,13 @@ public class HabiticaClientServiceTest {
   }
 
   @Test
-  public void testUpdateTask() throws IOException {
+  void testUpdateTask() throws IOException {
     /////////////
     // Prepare //
     /////////////
     InputStream stream_orig = this.getClass().getResourceAsStream("tasks_user_01.json");
     Assert.assertNotNull("[Initialisation error] Could not find test resource 1.", stream_orig);
-    String tasks_orig_s = IOUtils.toString(stream_orig, StandardCharsets.UTF_8);
+    String tasks_orig_s = IOUtils.toString(stream_orig, StandardCharsets.UTF_8).replaceAll("[\n\\s]", "");
 
     HabiticaRequestResult<List<Task>> tmp = new ObjectMapper()
         .readValue(tasks_orig_s, new TypeReference<HabiticaRequestResult<List<Task>>>() {});
@@ -187,7 +140,7 @@ public class HabiticaClientServiceTest {
     HabiticaRequestResult<Task> response = new HabiticaRequestResult<>(task_updated);
     String response_s = new ObjectMapper().writeValueAsString(response);
 
-    new MockServerClient(MOCK_SERVER_HOST, mockServerPort)
+    createClientMock()
         .when(HttpRequest
                 .request()
                 .withMethod("PUT")
