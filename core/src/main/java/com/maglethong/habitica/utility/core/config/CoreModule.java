@@ -9,17 +9,17 @@ import com.maglethong.habitica.utility.core.habitica.internal.HabiticaClientServ
 
 public class CoreModule extends AbstractModule {
 
-	private static Injector injector = Guice.createInjector(new CoreModule());
+  private static Injector injector = Guice.createInjector(new CoreModule());
 
-	public static <I> I getInstance(Class<I> base) {
-		return injector.getInstance(base);
-	}
+  public static <I> I getInstance(Class<I> base) {
+    return injector.getInstance(base);
+  }
 
-	@Override
-	protected void configure() {
-		// Habitica Service
-		bind(IHabiticaClientService.class).to(HabiticaClientService.class);
-	}
+  @Override
+  protected void configure() {
+    // Habitica Service
+    bind(IHabiticaClientService.class).to(HabiticaClientService.class);
+  }
 
 }
 

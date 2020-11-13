@@ -47,6 +47,10 @@
   </module>
 
   <module name="TreeWalker">
+    <module name="TodoComment">
+      <property name="format" value="TODO"/>
+      <property name="severity" value="warning"/>
+    </module>
     <module name="OuterTypeFilename"/>
     <module name="IllegalTokenText">
       <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
@@ -263,7 +267,7 @@
     <module name="AbbreviationAsWordInName">
       <property name="ignoreFinal" value="false"/>
       <property name="allowedAbbreviationLength" value="0"/>
-      <property name="allowedAbbreviations" value="I"/>
+      <property name="allowedAbbreviations" value="I,IT"/>
       <property name="tokens"
                 value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, ANNOTATION_FIELD_DEF,
                     PARAMETER_DEF, VARIABLE_DEF, METHOD_DEF, PATTERN_VARIABLE_DEF, RECORD_DEF,
@@ -336,7 +340,7 @@
     </module>
     <module name="MissingJavadocMethod">
       <property name="scope" value="public"/>
-      <property name="minLineCount" value="-1"/>
+      <property name="minLineCount" value="2"/>
       <property name="allowedAnnotations" value="Override, Test, Autowired"/>
       <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF,
                                    COMPACT_CTOR_DEF"/>

@@ -8,19 +8,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Properties;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@RunWith(MockitoJUnitRunner.class)
-public class HabiticaClientServiceIT {
+@ExtendWith(MockitoExtension.class)
+class HabiticaClientServiceIT {
   private static final Logger LOGGER = LoggerFactory.getLogger(HabiticaClientServiceIT.class);
 
   @Mock
@@ -29,10 +29,10 @@ public class HabiticaClientServiceIT {
   @InjectMocks
   private HabiticaClientService service;
 
-  @Before
-  public void prepare() throws IOException {
+  @BeforeEach
+  void prepare() throws IOException {
     InputStream propStream = this.getClass().getResourceAsStream("/local.properties");
-    Assert.assertNotNull("local.properties resource not found", propStream);
+    Assertions.assertNotNull(propStream, "local.properties resource not found");
 
     Properties properties = new Properties();
     properties.load(propStream);
@@ -52,26 +52,26 @@ public class HabiticaClientServiceIT {
   }
 
   @Test
-  public void smokeTest() {
+  void smokeTest() {
   }
 
   @Test
-  public void testGetTasks() {
+  void testGetTasks() {
     Collection<Task> result = service.getTasks(null, TaskType.Reward);
 
-    Assert.assertNotNull(result);
-    Assert.assertTrue("Result size is 0!", result.size() > 0);
+    Assertions.assertNotNull(result);
+    Assertions.assertTrue(result.size() > 0, "Result size is 0!");
   }
 
   @Test
-  public void testUpdateTask() {
+  void testUpdateTask() {
     /////////////
     // Prepare //
     /////////////
     Collection<Task> getResult = service.getTasks(null, TaskType.Reward);
 
-    Assert.assertNotNull(getResult);
-    Assert.assertTrue("Result size is 0!", getResult.size() > 0);
+    Assertions.assertNotNull(getResult);
+    Assertions.assertTrue(getResult.size() > 0, "Result size is 0!");
 
     Task target = getResult.iterator().next();
 
@@ -86,17 +86,17 @@ public class HabiticaClientServiceIT {
     /////////////
 
     // Unchanged
-    Assert.assertEquals(target.getId(), updated.getId());
-    Assert.assertEquals(target.getNotes(), updated.getNotes());
-    Assert.assertEquals(target.getPriority(), updated.getPriority());
-    Assert.assertEquals(target.getTagIds(), updated.getTagIds());
-    Assert.assertEquals(target.getTaskType(), updated.getTaskType());
-    Assert.assertEquals(target.getTaskValue(), updated.getTaskValue());
-    Assert.assertEquals(target.getText(), updated.getText());
-    Assert.assertEquals(target.getCreatedAt(), updated.getCreatedAt());
+    Assertions.assertEquals(target.getId(), updated.getId());
+    Assertions.assertEquals(target.getNotes(), updated.getNotes());
+    Assertions.assertEquals(target.getPriority(), updated.getPriority());
+    Assertions.assertEquals(target.getTagIds(), updated.getTagIds());
+    Assertions.assertEquals(target.getTaskType(), updated.getTaskType());
+    Assertions.assertEquals(target.getTaskValue(), updated.getTaskValue());
+    Assertions.assertEquals(target.getText(), updated.getText());
+    Assertions.assertEquals(target.getCreatedAt(), updated.getCreatedAt());
 
     // Updated
-    Assert.assertEquals(updateValues.getAttribute(), updated.getAttribute());
+    Assertions.assertEquals(updateValues.getAttribute(), updated.getAttribute());
 
     // Rollback
     updateValues = new Task().setAttribute(target.getAttribute());

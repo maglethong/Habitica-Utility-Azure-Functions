@@ -12,13 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Base class for Tasting using MockClientAndServer
+ * Base class for Tasting using MockClientAndServer.
  *
  * @param <T> The actual test class (Used so each Test Class has its own Mocked Server)
  */
-public abstract class BaseClientTest<T extends BaseClientTest> {
+public abstract class AbstractBaseClientTest<T extends AbstractBaseClientTest> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(BaseClientTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AbstractBaseClientTest.class);
   private static final String MOCK_SERVER_HOST = "127.0.0.1";
   private static final String BASE_URL = "http://" + MOCK_SERVER_HOST + ":{mockServerPort}";
   private static int mockServerPort;

@@ -11,17 +11,17 @@ public enum WebHookType {
   private final String queryValue;
   private final String jsonValue;
 
-  WebHookType(String queryValue, String jsonValue){
+  WebHookType(String queryValue, String jsonValue) {
     this.queryValue = queryValue;
     this.jsonValue = jsonValue;
   }
 
-  public String getQueryValue(){
+  public String getQueryValue() {
     return queryValue;
   }
 
   @JsonValue
-  public String getJsonValue(){
+  public String getJsonValue() {
     return jsonValue;
   }
 }

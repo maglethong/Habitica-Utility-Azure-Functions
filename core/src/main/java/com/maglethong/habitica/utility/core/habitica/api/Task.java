@@ -125,16 +125,16 @@ public class Task extends Object implements Cloneable {
       return false;
     }
     Task task = (Task) o;
-    return Objects.equals(id, task.id) &&
-        taskType == task.taskType &&
-        attribute == task.attribute &&
-        Objects.equals(notes, task.notes) &&
-        Objects.equals(tagIds, task.tagIds) &&
-        Objects.equals(taskValue, task.taskValue) &&
-        Objects.equals(priority, task.priority) &&
-        Objects.equals(createdAt, task.createdAt) &&
-        Objects.equals(updatedAt, task.updatedAt) &&
-        Objects.equals(text, task.text);
+    return Objects.equals(id, task.id)
+        && taskType == task.taskType
+        && attribute == task.attribute
+        && Objects.equals(notes, task.notes)
+        && Objects.equals(tagIds, task.tagIds)
+        && Objects.equals(taskValue, task.taskValue)
+        && Objects.equals(priority, task.priority)
+        && Objects.equals(createdAt, task.createdAt)
+        && Objects.equals(updatedAt, task.updatedAt)
+        && Objects.equals(text, task.text);
   }
 
   @Override

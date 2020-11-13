@@ -62,11 +62,11 @@ public class HabiticaUtilityService implements IHabiticaUtilityService {
    *
    * @param task The task being updated
    */
-  void processBankTaskPressed(Task task){ // TODO -> Test
+  void processBankTaskPressed(Task task) { // TODO -> Test
     Task updateValues = new Task();
 
-    String note_s = task.getNotes();
-    String[] notes = note_s.split("\n");
+    String noteAsString = task.getNotes();
+    String[] notes = noteAsString.split("\n");
 
     int tax = 0;
     int balance = task.getTaskValue();
@@ -74,38 +74,39 @@ public class HabiticaUtilityService implements IHabiticaUtilityService {
     String taskId = task.getId();
 
     // Get Tax value from notes
-    Optional<String> depositTax_s = Arrays
+    Optional<String> depositTaxAsString = Arrays
         .stream(notes)
         .filter(s -> s.toLowerCase().contains("deposit tax"))
         .findFirst();
-    if (depositTax_s.isPresent()) {
-      String value = depositTax_s.get();
+    if (depositTaxAsString.isPresent()) {
+      String value = depositTaxAsString.get();
       tax = Integer.parseInt(value.substring(value.indexOf('`'), value.lastIndexOf('`')));
     } else {
-      if (!note_s.isEmpty()) {
-        note_s += "\n\n";
+      if (!noteAsString.isEmpty()) {
+        noteAsString += "\n\n";
       }
-      note_s += "Tax: `0`";
+      noteAsString += "Tax: `0`";
     }
 
     // Update/Create Balance in notes
-    Optional<String> balance_s = Arrays
+    Optional<String> balanceAsService = Arrays
         .stream(notes)
         .filter(s -> s.toLowerCase().contains("balance"))
         .findFirst();
-    if (balance_s.isPresent()) {
-      String value = balance_s.get();
+    if (balanceAsService.isPresent()) {
+      String value = balanceAsService.get();
       origBalance = Integer.parseInt(value.substring(value.indexOf('`'), value.lastIndexOf('`')));
       balance += origBalance - tax;
-      note_s = note_s.replace(value, "Balance: `" + balance + "`");
-      updateValues.setNotes(note_s);
+      noteAsString = noteAsString.replace(value, "Balance: `" + balance + "`");
+      updateValues.setNotes(noteAsString);
     } else {
       balance -= tax;
-      note_s += "Balance: `" + balance + "`";
-      updateValues.setNotes(note_s);
+      noteAsString += "Balance: `" + balance + "`";
+      updateValues.setNotes(noteAsString);
     }
 
-    LOGGER.info("Updating Bank balance (TaskId: {}) from {} to {} (tax paid was {}).", taskId, origBalance, balance, tax);
+    LOGGER
+        .info("Updating Bank balance (TaskId: {}) from {} to {} (tax paid was {}).", taskId, origBalance, balance, tax);
     habiticaClientService.updateTask(taskId, updateValues);
   }
 }
